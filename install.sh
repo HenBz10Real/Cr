@@ -13,6 +13,9 @@ print() {
     echo ""
 }
 
+RED='\033[0;31m'
+NC='\033[0m'
+
 if [ -z "$renderer" ]; then
     if [ -n "$(getprop ro.hardware.vulkan)" ]; then
         renderer="vulkan"
@@ -31,7 +34,7 @@ set_performance_mode() {
 
 set_performance_mode "performance"
 
-print "Starting app with renderer: $renderer"
+print -e "Starting app with renderer: ${RED}$renderer${NC}"
 
 setprop debug.hwui.renderer "$renderer"
 
@@ -92,7 +95,7 @@ echo -e "\e[38;2;255;80;0m -> $(date) \e[0m"
 echo ""
 sleep 1
 echo ""
-print "Automatically selects Renderer ---[ $renderer ]---"
+print -e "Automatically selects Renderer  ${RED}---[ $renderer ]---"${NC}"
 echo ""
 sleep 1
 echo ""
