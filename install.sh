@@ -34,7 +34,7 @@ set_performance_mode() {
 
 set_performance_mode "performance"
 
-print -e "Starting app with renderer: ${RED}$renderer${NC}"
+echo -e "Starting app with renderer: ${RED}$renderer${NC}"
 
 setprop debug.hwui.renderer "$renderer"
 
@@ -95,12 +95,12 @@ echo -e "\e[38;2;255;80;0m -> $(date) \e[0m"
 echo ""
 sleep 1
 echo ""
-print -e "Automatically selects Renderer  ${RED}---[ $renderer ]---${NC}"
+echo -e "Automatically selects Renderer  ${RED}---[ $renderer ]---${NC}"
 echo ""
 sleep 1
 echo ""
 sleep 2
-echo "Optimize and open applications [ $runPackage ]"
+print "Optimize and open applications [ $runPackage ]"
 sleep 1
 echo ""
 print "Wait.."
