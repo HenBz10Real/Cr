@@ -72,7 +72,7 @@ echo ""
 sleep 0.5
 echo -e "\e[38;2;255;80;0m __________________________________\e[0m"
 sleep 0.5
-echo -e "\e[38;2;255;80;0m|    ＣＯＲＥ－ＦＬＥＸ V. 5           |\e[0m"
+echo -e "\e[38;2;255;80;0m|     ＣＯＲＥ－ＦＬＥＸ V.5           |\e[0m"
 sleep 0.5
 echo -e "\e[38;2;255;80;0m|__________________________________|\e[0m"
 sleep 0.5
@@ -109,25 +109,29 @@ echo ""
 sleep 0.5
 (
     main
-    am force-stop "$runPackage"
-    id=($(cmd package dump "$runPackage" | awk '/MAIN/{getline; print $2}'))
-    if [ -n "$id" ];then
-        am start -n "${id[0]}" &
-        am kill "$runPackage"
-    else
-        echo ""
-    fi
-
     if command -v cmd > /dev/null 2>&1; then
-        cmd power set-fixed-performance-mode-enabled true
-        cmd power set-adaptive-power-saver-enabled false
-        cmd activity kill-all
-        cmd power set-mode 0
-        cmd thermalservice override-status 0
-        cmd game set --mode performance --downscale 0.6 --fps 90 --user 0 $runPackage
-        cmd package bg-dexopt-job -f $runPackage
-        cmd shortcut reset-throttling "$package_name"
-        cmd game set --priority high $runPackage
-        cmd game set --networkmode low_latency $runPackage
+        cmd power set-fixed-performance-mode-enabled true 2>&1 | grep -E "Success|Successfully deleted"
+        cmd power set-adaptive-power-saver-enabled false 2>&1 | grep -E "Success|Successfully deleted"
+        cmd activity kill-all 2>&1 | grep -E "Success"
+        cmd power set-mode 0 2>&1 | grep -E "Success"
+        cmd thermalservice override-status 0 2>&1 | grep -E "Success"
+        cmd game set --mode performance --downscale 0.7 --fps 90 --user 0 $runPackage 2>&1 | grep -E "Success"
+        cmd package compile -m quicken -f $runPackage 2>&1 | grep -E "Success"
+        device_config delete game_overlay "$runPackage" 2>&1 | grep -E "Success|Successfully deleted"
+        device_config put game_overlay "$runPackage" mode=2,fps=90,downscaleFactor=0.7 2>&1 | grep -E "Success"
+        cmd package bg-dexopt-job -f $runPackage 2>&1 | grep -E "Success"
+        cmd shortcut reset-throttling $runPackage 2>&1 | grep -E "Success"
+        cmd game set --priority high $runPackage 2>&1 | grep -E "Success"
+        cmd game set --networkmode low_latency $runPackage 2>&1 | grep -E "Success"
     fi
-)> /dev/null 2>&1
+{
+    am force-stop "$runPackage" 2>&1 | grep -E "Success"
+    id=($(cmd package dump "$runPackage" | awk '/MAIN/{getline; print $2}'))
+    if [ -n "$id" ]; then 
+        am start -n "${id[0]}" & 2>&1 | grep -E "Starting"
+        am kill "$runPackage" 2>&1 | grep -E "Success"
+    else
+        echo "" > /dev/null
+    fi
+} > /dev/null 2>&1 &
+)
