@@ -95,7 +95,7 @@ echo -e "\e[38;2;255;80;0m -> $(date) \e[0m"
 echo ""
 sleep 1
 echo ""
-print -e "Automatically selects Renderer  ${RED}---[ $renderer ]---"${NC}"
+print -e "Automatically selects Renderer  ${RED}---[ $renderer ]---${NC}"
 echo ""
 sleep 1
 echo ""
