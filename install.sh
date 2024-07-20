@@ -50,10 +50,13 @@ apply_properties() {
     setprop debug.sf.high_fps_early_phase_offset_ns 500
     setprop debug.sf.high_fps_early_gl_phase_offset_ns 500
     settings put system pointer_speed 7  
-    settings put system game_mode 1
-    settings put global window_animation_scale 0
-    settings put global transition_animation_scale 0
-    settings put global animator_duration_scale 0
+    settings put system game_mode 2
+    settings put secure speed_mode_enable 1
+    settings put system speed_mode 1
+    settings put global game_mode_for_package $runPackage 2
+    settings put global window_animation_scale 0.5
+    settings put global transition_animation_scale 0.5
+    settings put global animator_duration_scale 0.5
     settings put global always_finish_activities 1
 }
 
@@ -116,7 +119,11 @@ sleep 0.5
         cmd power set-fixed-performance-mode-enabled true
         cmd power set-adaptive-power-saver-enabled false
         cmd activity kill-all
-        cmd game set --mode performance --downscale 0.6 --fps 60 --user 0 $runPackage
+        cmd power set-mode 0
+        cmd thermalservice override-status 0
+        cmd game set --mode performance --downscale 0.6 --fps 90 --user 0 $runPackage
+        cmd package bg-dexopt-job -f $runPackage
+        cmd shortcut reset-throttling "$package_name"
         cmd game set --priority high $runPackage
         cmd game set --networkmode low_latency $runPackage
     fi
