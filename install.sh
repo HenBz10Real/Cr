@@ -52,9 +52,9 @@ apply_properties() {
     settings put secure speed_mode_enable 1
     settings put system speed_mode 1
     settings put global game_mode_for_package $runPackage 2
-    settings put global window_animation_scale 0
-    settings put global transition_animation_scale 0
-    settings put global animator_duration_scale 0
+    settings put global window_animation_scale 0.5
+    settings put global transition_animation_scale 0.5
+    settings put global animator_duration_scale 0.5
     settings put global always_finish_activities 1
 }
 
@@ -130,7 +130,6 @@ vip_user() {
     sleep 1
     echo ""
     sleep 0.5
-    (
         if command -v cmd > /dev/null 2>&1; then
             cmd power set-fixed-performance-mode-enabled true 2>&1 | grep -E "Success|Successfully deleted"
             cmd power set-adaptive-power-saver-enabled false 2>&1 | grep -E "Success|Successfully deleted"
@@ -155,8 +154,7 @@ vip_user() {
             else
                 echo "" > /dev/null
             fi
-        } > /dev/null 2>&1 &
-    )
+        }  > /dev/null 2>&1 &
 }
 
 free_user() {
