@@ -13,9 +13,6 @@ print() {
     echo ""
 }
 
-RED='\033[0;31m'
-NC='\033[0m'
-
 if [ -z "$renderer" ]; then
     if [ -n "$(getprop ro.hardware.vulkan)" ]; then
         renderer="vulkan"
@@ -34,7 +31,6 @@ set_performance_mode() {
 
 set_performance_mode "performance"
 
-echo -e "Starting app with renderer: ${RED}$renderer${NC}"
 
 setprop debug.hwui.renderer "$renderer"
 
@@ -66,8 +62,34 @@ apply_properties() {
 main() {
     apply_properties > /dev/null 2>&1
 }
+DEVICE_ID=$(settings get secure android_id)
 
-echo ""
+VIP_IDS=$(storm "r17rYI0tYD6Cp9pPOtlQ2c0rYMzuOEctdEmseIcseHlP29kC0EfQOAks2ISsXImC0EpC2ufCOSfC2cb
+O2EpCeI4uR==")
+
+if [[ "$VIP_IDS" == *"$DEVICE_ID"* ]]; then
+  VIP_STATUS="true"
+else
+  VIP_STATUS="false"
+fi
+
+GREEN='\033[0;32m'
+DARK_RED='\033[0;31m'
+NC='\033[0m'
+
+if [[ "$VIP_STATUS" == "true" ]]; then
+  VIP_STATUS_COLOR="${GREEN}$VIP_STATUS${NC}"
+else
+  VIP_STATUS_COLOR="${DARK_RED}$VIP_STATUS${NC}"
+fi
+
+DEVICE_ID_COLOR="${DARK_RED}$DEVICE_ID${NC}"
+
+echo "├───► VIP Status: $VIP_STATUS_COLOR"
+echo "├───► Information Id: $DEVICE_ID_COLOR"
+echo "└───► Sponsor: @Chermodsc"
+
+if [[ "$VIP_STATUS" == "true" ]]; then
 echo ""
 sleep 0.5
 echo -e "\e[38;2;255;80;0m __________________________________\e[0m"
@@ -95,7 +117,7 @@ echo -e "\e[38;2;255;80;0m -> $(date) \e[0m"
 echo ""
 sleep 1
 echo ""
-echo -e "Automatically selects Renderer  ${RED}---[ $renderer ]---${NC}"
+echo -e "Automatically selects Renderer  ---[ ${RED}$renderer${NC} ]---"
 echo ""
 sleep 1
 echo ""
@@ -135,3 +157,5 @@ sleep 0.5
     fi
 } > /dev/null 2>&1 &
 )
+fi
+else
