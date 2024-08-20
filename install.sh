@@ -195,7 +195,7 @@ apply_propertiess > /dev/null 2>&1 &
     sleep 0.5
     echo -e "\e[38;2;255;80;0m __________________________________\e[0m"
     sleep 0.5
-    echo -e "\e[38;2;255;80;0m|     ＣＯＲＥ－ＦＬＥＸ V.5       |\e[0m"
+    echo -e "\e[38;2;255;80;0m|     ＣＯＲＥ－ＦＬＥＸ V.5 HACKED BY HENPEEX      |\e[0m"
     sleep 0.5
     echo -e "\e[38;2;255;80;0m|__________________________________|\e[0m"
     sleep 0.5
