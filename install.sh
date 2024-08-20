@@ -87,7 +87,7 @@ DEVICE_ID_COLOR="${DARK_RED}$DEVICE_ID${NC}"
 
 echo "├───► VIP Status: $VIP_STATUS_COLOR"
 echo "├───► Information Id: $DEVICE_ID_COLOR"
-echo "└───► Sponsor: @Chermodsc"
+echo "└───► Sponsor: Hacked by Henpeex"
 
 vip_user() {
     echo ""
